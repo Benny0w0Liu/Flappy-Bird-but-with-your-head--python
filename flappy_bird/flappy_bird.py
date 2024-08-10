@@ -70,7 +70,7 @@ while True:
             cv2.putText(frame, str(score),(int(frame.shape[1]/2),100),cv2.FONT_HERSHEY_SIMPLEX,1.5,(255,255,255),4)
         else:
             game_over(frame)
-        cv2.imshow('video',frame)
+        cv2.imshow('flappy bird',frame)
     else:
         break
     if cv2.waitKey(10)==ord('q'):
