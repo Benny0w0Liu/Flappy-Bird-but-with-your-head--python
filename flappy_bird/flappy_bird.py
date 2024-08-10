@@ -60,7 +60,7 @@ while True:
         frame = cv2.resize(frame,(0,0),fx=1.2,fy=1.2)
         gray_frame=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
         if(run==True):
-            faceCascade=cv2.CascadeClassifier(r'.\flappy_bird\face_detect.xml')
+            faceCascade=cv2.CascadeClassifier(cv2.samples.findFile(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'))
             faceRect = faceCascade.detectMultiScale(gray_frame, 1.1, 6)
             for(x,y,w,h)in faceRect:
                 cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
