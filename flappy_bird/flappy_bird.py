@@ -12,7 +12,7 @@ bird_image[1]=cv2.imread(r'.\flappy_bird\Flappy-Bird2.png')
 bird_image[0] = cv2.resize(bird_image[0],(bird_size[0],bird_size[1]))
 bird_image[1] = cv2.resize(bird_image[1],(bird_size[0],bird_size[1]))
 
-pipes=[[0,200,False],[-350,300,False],[-700,100,False]]#[pipe_x,gap_y,pass or not]
+pipes=[[0,200,False],[-350,300,False],[-700,100,False]]#[pipe_position(convert) , gap_width ,pass or not]
 pipe_width=70
 pipe_gap = 150
 
@@ -25,22 +25,22 @@ def draw_pipe(img):
     height= img.shape[0]
     width = img.shape[1]
     for pipe in pipes:
-        cv2.rectangle(img, (width-pipe[0], 0),(width-pipe[0]-pipe_width,pipe[1]),(88, 218,125 ),cv2.FILLED)
-        cv2.rectangle(img, (width-pipe[0], pipe[1]+pipe_gap),(width-pipe[0]-pipe_width,height),(88, 218,125 ),cv2.FILLED)
+        cv2.rectangle(img, (width-pipe[0], 0),(width-pipe[0]+pipe_width,pipe[1]),(88, 218,125 ),cv2.FILLED)
+        cv2.rectangle(img, (width-pipe[0], pipe[1]+pipe_gap),(width-pipe[0]+pipe_width,height),(88, 218,125 ),cv2.FILLED)
         pipe[0]+=speed+int(score*0.1)
-        if width-pipe[0]<bird_x-bird_size[0] and pipe[2]==False:
+        if width-pipe[0]+pipe_width<bird_x and pipe[2]==False:
             score=score+1
             pipe[2]=True
-        if(pipe[0]>width):
+        if(pipe[0]>width+pipe_width):
             pipe[0] = min(pipes[0][0],pipes[1][0],pipes[2][0])-350
-            pipe[1]=random.randint(100,300) 
-            pipe[2]=False
+            pipe[1] = random.randint(100,300) 
+            pipe[2] = False
 
 def draw_bird(img):
     width = img.shape[1]
     global run, bird_frame
     for pipe in pipes:
-        if width-pipe[0]-70<bird_x+bird_size[0] and width-pipe[0]>bird_x and (bird_y<pipe[1] or bird_y+bird_size[1]>pipe_gap+pipe[1]):
+        if width-pipe[0]<bird_x+bird_size[0] and width-pipe[0]+pipe_width>bird_x and (bird_y<pipe[1] or bird_y+bird_size[1]>pipe_gap+pipe[1]):
             run=False
             break
     img[bird_y:bird_y+bird_size[1],bird_x:bird_x+bird_size[0]]=bird_image[bird_frame]
